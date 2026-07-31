@@ -87,6 +87,15 @@ app.get('/libros/calificacion/:min', (req, res) => {
   res.json(libros);
 });
 
+// Buscar libros por género
+app.get('/libros/genero/:genero', (req, res) => {
+  const generoBuscado = req.params.genero.toLowerCase();
+  const libros = db.get('libros')
+    .filter(libro => libro.genero.toLowerCase() === generoBuscado)
+    .value();
+  res.json(libros);
+});
+
 // Calcular progreso del reto anual
 app.get('/progreso', (req, res) => {
   const libros = db.get('libros').value();
