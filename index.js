@@ -103,11 +103,17 @@ app.get('/progreso', (req, res) => {
   const librosTerminados = libros.filter(l => l.estado === 'terminado').length;
   const metaAnual = 24; // Meta configurable
 
+  let porcentaje = 0;
+  if (metaAnual > 0) {
+    porcentaje = ((librosTerminados / metaAnual) * 100).toFixed(2);
+  }
+
   res.json({
     totalLibros,
     librosTerminados,
     metaAnual,
-    porcentajeProgreso: ((librosTerminados / metaAnual) * 100).toFixed(2) + '%'
+    porcentajeProgreso: porcentaje + '%',
+    librosRestantes: Math.max(metaAnual - librosTerminados, 0)
   });
 });
 
