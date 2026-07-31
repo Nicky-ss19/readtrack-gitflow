@@ -78,6 +78,15 @@ app.delete('/libros/:id', (req, res) => {
   res.json({ mensaje: 'Libro eliminado correctamente' });
 });
 
+// Obtener libros por calificación mínima
+app.get('/libros/calificacion/:min', (req, res) => {
+  const calificacionMin = parseFloat(req.params.min);
+  const libros = db.get('libros')
+    .filter(libro => libro.calificacion >= calificacionMin)
+    .value();
+  res.json(libros);
+});
+
 // Calcular progreso del reto anual
 app.get('/progreso', (req, res) => {
   const libros = db.get('libros').value();
