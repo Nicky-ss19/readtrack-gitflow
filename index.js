@@ -58,6 +58,10 @@ app.put('/libros/:id', (req, res) => {
     return res.status(400).json({ error: 'Las páginas leídas no pueden superar el total de páginas' });
   }
 
+  if (paginasLeidas < 0) {
+    return res.status(400).json({ error: 'Las páginas leídas no pueden ser negativas' });
+  }
+
   db.get('libros')
     .find({ id })
     .assign({ paginasLeidas, estado, calificacion })
