@@ -74,8 +74,14 @@ app.put('/libros/:id', (req, res) => {
 // Eliminar libro
 app.delete('/libros/:id', (req, res) => {
   const id = parseInt(req.params.id);
+  const libro = db.get('libros').find({ id }).value();
+
+  if (!libro) {
+    return res.status(404).json({ error: 'Libro no encontrado, no se puede eliminar' });
+  }
+
   db.get('libros').remove({ id }).write();
-  res.json({ mensaje: 'Libro eliminado correctamente' });
+  res.json({ mensaje: `Libro "${libro.titulo}" eliminado correctamente` });
 });
 
 // Obtener libros por calificación mínima
